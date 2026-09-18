@@ -1,0 +1,28 @@
+testbed:
+  name: devnet_sandbox
+  credentials:
+    default:
+      username: cisco
+      password: cisco
+devices:
+  dist-sw01:
+    alias: uut
+    os: nxos
+    type: nxos
+    connections:
+      defaults:
+        via: ssh
+      ssh:
+        ip: 10.10.20.177
+        port: 22
+        protocol: ssh
+  dist-sw02:
+    os: nxos
+    type: nxos
+    connections:
+      defaults:
+        via: ssh
+      ssh:
+        ip: 10.10.20.178
+        port: 22
+        protocol: ssh
