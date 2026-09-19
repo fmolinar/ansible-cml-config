@@ -8,6 +8,18 @@ The lab was taken from:
 Under devnet
 
 start the lab **CI/CD pipeline for infrastructure automation**
+## Topology
+```mermaid
+flowchart LR
+    JOB["GitLab CI job container"] --> DOCKER["Docker bridge"]
+    DOCKER --> VM["GitLab VM"]
+    VM --> NETWORK["10.10.20.0 network"]
+    NETWORK --> CML["CML System Bridge"]
+    CML --> EXT["External Connector"]
+    EXT --> SW["Unmanaged Switch"]
+    SW --> N1["dist-sw01 management"]
+    SW --> N2["dist-sw02 management"]
+```
 
 ## Connection
 I will be using a Windows machine, this means that once the devnet launches the lab I will need to configure VPN, I will be using openConnect VPN.
