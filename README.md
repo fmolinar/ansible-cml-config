@@ -1,13 +1,13 @@
 # Goal
-Connect to a Cisco Devnet lab and configure routers using CI/CD pipelines with Ansible, also use Terraform to do this
-
-## Documentation
-The lab was taken from:
+This lab comes from the lab 
 > https://developer.cisco.com/docs/ansible-fest-lab-guide/introduction/#welcome-to-red-hat-summit-ansible-fest-2024
+The goal is to configure some NXOS switches on CML via CICD using Ansible.
 
-Under devnet
+To do this I used the lab 
+> https://devnetsandbox.cisco.com/DevNet/catalog/ansible-days_ansible-days
 
-start the lab **CI/CD pipeline for infrastructure automation**
+The reason to choose this lab was because I can run Cisco equipment on CML and Gitlab is already setup for me.
+
 ## Topology
 ```mermaid
 flowchart LR
