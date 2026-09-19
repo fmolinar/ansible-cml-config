@@ -1,0 +1,69 @@
+---
+- name: Configure NX OS interfaces and OSPF
+  hosts: nxos
+  gather_facts: false
+  serial: 1
+
+  vars:
+    ansible_connection: network_cli
+
+  tasks:
+    - name: Validate required variables
+      assert:
+        that:
+          - ospf_process_id is defined
+          - router_id is defined
+          - ospf_vlans is defined
+          - configure_ospf is defined
+          - configure_ospf | length > 0
+        fail_msg: "Required OSPF variables are missing"
+
+    - name: Enable required NX OS features
+      nxos_config:
+        lines:
+          - feature ospf
+          - feature interface-vlan
+
+    - name: Ensure required VLANs exist
+      nxos_config:
+        lines:
+          - "vlan {{ item }}"
+      loop: "{{ ospf_vlans }}"
+      loop_control:
+        label: "VLAN {{ item }}"
+
+    - name: Configure the OSPF process
+      nxos_config:
+        parents:
+          - "router ospf {{ ospf_process_id }}"
+        lines:
+          - "router-id {{ router_id }}"
+          - passive-interface default
+
+    - name: Configure interfaces
+      nxos_config:
+        parents:
+          - "interface {{ item.name }}"
+        lines:
+          - "description {{ item.name }} Configured by Ansible"
+          - no shutdown
+          - "ip address {{ item.ipv4 }}"
+          - "ip router ospf {{ ospf_process_id }} area {{ item.area }}"
+      loop: "{{ configure_ospf }}"
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Make transit interfaces non-passive
+      nxos_config:
+        parents:
+          - "interface {{ item.name }}"
+        lines:
+          - no ip ospf passive-interface
+      loop: "{{ configure_ospf }}"
+      when: not item.passive | bool
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Save the running configuration
+      nxos_config:
+        save_when: modified

@@ -42,4 +42,47 @@ flowchart LR
 ```
 
 ### Ansible 
-Ansible will act as the configuration management tool for the CI/CD pipeline
+Ansible will act as the configuration management tool for the CI/CD pipeline.
+
+
+## GOAL of the lab
+After setup of the lab the goal is to create a new interface on each of the two virtual switches, Loopback100, configure it for OSPF and make sure is propagated throughout the network.
+
+### Steps
+
+1. Configure the files in **host_vars** and add the extra interface on both virtual switches.
+2. Modify the pyATS files to check if the configuration is applied correctly
+
+this is the current config of the loopbacks of the switches:
+
+SW1
+```
+dist-sw01# sh run interface | sec loopback
+interface loopback0
+  description loopback0 Configured by Ansible
+  ip address 192.168.0.1/32
+  ip router ospf 1 area 0.0.0.0
+```
+
+SW2
+```
+dist-sw02# sh run interface | sec loopback
+interface loopback0
+  description loopback0 Configured by Ansible
+  ip address 192.168.0.2/32
+  ip router ospf 1 area 0.0.0.0
+  ```
+
+
+  result:
+  ```
+  dist-sw02# sh run interface | sec loopback
+interface loopback0
+  description Loopback0 Configured by Ansible
+  ip address 192.168.0.2/32
+  ip router ospf 1 area 0.0.0.0
+interface loopback100
+  description Loopback100 Configured by Ansible
+  ip address 192.168.100.2/32
+  ip router ospf 1 area 0.0.0.0
+  ```

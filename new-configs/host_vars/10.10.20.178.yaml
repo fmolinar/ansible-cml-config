@@ -1,0 +1,46 @@
+---
+ospf_process_id: "1"
+router_id: "192.168.0.2"
+
+ospf_vlans:
+  - 101
+  - 102
+  - 103
+  - 104
+  - 105
+
+configure_ospf:
+  - name: Loopback0
+    ipv4: "192.168.0.2/32"
+    area: "0.0.0.0"
+    passive: true
+
+  - name: Vlan101
+    ipv4: "172.16.101.3/24"
+    area: "0.0.0.0"
+    passive: false
+
+  - name: Vlan102
+    ipv4: "172.16.102.3/24"
+    area: "0.0.0.0"
+    passive: true
+
+  - name: Vlan103
+    ipv4: "172.16.103.3/24"
+    area: "0.0.0.0"
+    passive: true
+
+  - name: Vlan104
+    ipv4: "172.16.104.3/24"
+    area: "0.0.0.0"
+    passive: true
+
+  - name: Vlan105
+    ipv4: "172.16.105.3/24"
+    area: "0.0.0.0"
+    passive: true
+
+  - name: Loopback100
+    ipv4: "192.168.100.2/32"
+    area: "0.0.0.0"
+    passive: true
